@@ -2,14 +2,16 @@ from fastapi import FastAPI, HTTPException, status
 from models import (
   Task,
   TaskWithID,
-  UpdateTask
+  UpdateTask,
+  TaskV2WithID
 )
 from operations import (
   read_all_tasks,
   read_task,
   create_task,
   modify_task,
-  remove_task
+  remove_task,
+  read_all_tasks_v2
 )
 from typing import Optional
 
@@ -94,3 +96,8 @@ def search_tasks(keyword: str):
     )
 
   return filtered_tasks
+
+@app.get("/v2/tasks", response_model=list[TaskV2WithID])
+def get_tasks_v2():
+  tasks = read_all_tasks_v2()
+  return tasks

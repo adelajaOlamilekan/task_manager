@@ -1,6 +1,6 @@
 import csv
 from typing import Optional
-from models import Task, TaskWithID
+from models import Task, TaskWithID, TaskV2WithID, TaskV2
 
 DATABASE_FILENAME = "tasks.csv"
 column_fields = ["id", "title", "description", "status"]
@@ -80,4 +80,8 @@ def remove_task(task_id:int)-> Task:
       del dict_without_id["id"]
       return Task(**dict_without_id)
 
-    
+
+def read_all_tasks_v2()->list[TaskV2WithID]:
+  with open(DATABASE_FILENAME) as csvfile:
+    reader = csv.DictReader(csvfile)
+    return [TaskV2WithID(**row) for row in reader]
